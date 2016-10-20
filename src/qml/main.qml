@@ -47,20 +47,8 @@ Window {
         Item {
           height: 10
         }
-        RowLayout{
-          Text {
-            id: bomb
-            text: qsTr("\uD83D\uDCA3")
-            color: "red"
-            font.pixelSize: 25
-          }
-          Text {
-            text: Minesweeper.mines.length
-            color: "white"
-            font.pixelSize: bomb.font.pixelSize
-          }
-        }
-        
+        BombCount {}
+
         Item {
           Layout.fillHeight: true
         }
