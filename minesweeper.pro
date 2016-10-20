@@ -1,6 +1,6 @@
 TEMPLATE = app
 QT += qml quick
 
-SOURCES += main.cpp
+SOURCES += src/main.cpp
 RESOURCES += resource.qrc
-RC_ICONS = minesweeper.ico
+RC_ICONS = images/minesweeper.ico

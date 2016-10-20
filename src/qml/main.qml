@@ -2,7 +2,7 @@ import QtQuick 2.5
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.1
 
-import "minesweeper.js" as Minesweeper
+import "../minesweeper.js" as Minesweeper
 
 Window {
     id: window
@@ -16,7 +16,7 @@ Window {
         anchors.fill: parent
         asynchronous: true
         smooth: true
-        source: "qrc:/bg.png"
+        source: "qrc:/images/bg.png"
     }
 
     RowLayout {
@@ -60,6 +60,7 @@ Window {
             font.pixelSize: bomb.font.pixelSize
           }
         }
+        
         Item {
           Layout.fillHeight: true
         }

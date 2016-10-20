@@ -9,10 +9,10 @@ int main(int argc, char *argv[])
     QGuiApplication::setApplicationDisplayName(QObject::tr("Minesweeper"));
 
     QGuiApplication app(argc, argv);
-    app.setWindowIcon(QIcon(QStringLiteral(":/minesweeper.png")));
+    app.setWindowIcon(QIcon(QStringLiteral(":/images/minesweeper.png")));
 
     QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/src/qml/main.qml")));
 
     return app.exec();
 }

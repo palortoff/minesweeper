@@ -4,7 +4,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQml.StateMachine 1.0 as SMF
 
-import "minesweeper.js" as Minesweeper
+import "../minesweeper.js" as Minesweeper
 
 Item {
     property int position: 0

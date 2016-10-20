@@ -1,17 +1,20 @@
 .pragma library
 
-var dimension = 4;
+var dimension = 16;
 var mines = (function() { return initMinesweeper(); })();
 
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function initMinesweeper() {        
+function initMinesweeper() {
     var mines = [];
     var count = randomInt(1, dimension * dimension / 2);
-    for (var i = 0; i < count; i++) {
-        mines.push(randomInt(1, dimension * dimension));
+
+
+    while (mines.length < count){
+      var newMine = randomInt(0, dimension * dimension-1)
+      if (mines.indexOf(newMine) === -1) mines.push(newMine);
     }
 
     console.log(mines)
@@ -63,4 +66,3 @@ function explosiveSiblingCount(position) {
 
     return count;
 }
-
