@@ -22,6 +22,15 @@ Item {
     property real explodedStateOpacity : 0.6
     property color explodedStateColor : "darkred"
 
+    signal isSave(int position)
+    function otherIsSave(other){
+      var isNeighbor =  Minesweeper.isNeighbor(position, other)
+
+      if (isNeighbor) {
+        console.log("Hey, I know that guy!")
+      }
+    }
+
     QtObject {
         id: p;
 
@@ -87,6 +96,12 @@ Item {
                 signal: mousearea.onClicked
                 guard: !p.isRightButton && !p.isExplosive;
             }
+
+            // SMF.SignalTransition {
+                // targetState: finalState
+                // signal: neighbourIsSave
+                // guard: !p.isExplosive;
+            // }
         }
 
         SMF.State {
@@ -164,6 +179,7 @@ Item {
                 text.visible = p.explosiveSiblingCount > 0
                 text.color = p.siblingCountButtonTextColor()
                 background.opacity = p.explosiveSiblingCount === 0 ? 0.25 : 0.5
+                isSave(position)
             }
         }
     }
@@ -231,5 +247,8 @@ Item {
         }
     }
 
-    Component.onCompleted: startupAnimation.start()
+    Component.onCompleted: {
+      console.log(position, Minesweeper.neighbors(position))
+      startupAnimation.start()
+    }
 }

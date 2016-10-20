@@ -1,0 +1,24 @@
+{
+  "name": "minesweeper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2"
+  },
+  "scripts": {
+    "test": "mocha src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/palortoff/minesweeper.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/palortoff/minesweeper/issues"
+  },
+  "homepage": "https://github.com/palortoff/minesweeper#readme",
+  "private": true
+}

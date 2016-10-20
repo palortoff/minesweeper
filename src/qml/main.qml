@@ -32,6 +32,10 @@ Window {
           columns: Minesweeper.dimension
           rows: columns
 
+          signal positionIsSave(int position)
+
+          onPositionIsSave: console.log('position is save:',position)
+
           Repeater {
               model: table.rows *  table.columns
 
@@ -39,6 +43,12 @@ Window {
                   width: Math.max(16, (Math.min(window.width, window.height) / table.columns) - 8)
                   height: width
                   position: modelData
+                  onIsSave: table.positionIsSave(position)
+
+                  Connections {
+                      target: table
+                      onPositionIsSave: otherIsSave(position)
+                  }
               }
           }
       }
