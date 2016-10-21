@@ -31,7 +31,7 @@ Column {
           property int tileSize: Math.max(16, (minDimension / table.columns) - 8)
 
           function buttonIsSave(pos){
-            var n = Minesweeper.neighbors(pos);
+            var n = Minesweeper.directNeighbors(pos);
             n.forEach(function(p){toReveal.push(p);});
 
             if (!inReveal)

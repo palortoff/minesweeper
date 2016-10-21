@@ -1,8 +1,7 @@
-// 'use strict';
 .pragma library
 
 var dimension = 8;
-var mines
+var mines;
 
 initMinesweeper();
 
@@ -12,9 +11,8 @@ function randomInt(min, max) {
 
 function initMinesweeper() {
     console.log('initMinesweeper');
-    mines = [];
-    var count =5;//randomInt(1, dimension * dimension / 2);
-
+    var count = 5;
+    mines     = [];
 
     while (mines.length < count) {
         var newMine = randomInt(0, dimension * dimension - 1);
@@ -22,7 +20,6 @@ function initMinesweeper() {
     }
 
     console.log(mines);
-
     return mines;
 }
 
@@ -31,52 +28,27 @@ function isExplosivePosition(position) {
 }
 
 function explosiveSiblingCount(position) {
-    console.log('explosiveSiblingCount')
     var count = 0;
+    var n = allNeighbors(position);
 
-    // check the previous cell if this cell is not the first cell in this row
-    function leftNeighborhood(position) {
-        if (position % dimension != 0) {
-            return isExplosivePosition(position - 1) ? 1 : 0;
+    n.forEach(function (p) {
+        if (isExplosivePosition(p)){
+            count++;
         }
-
-        return 0;
-    }
-
-    // check the next cell if this cell is not the last cell in this row
-    function rightNeighborhood(position) {
-        if ((position + 1) % dimension != 0) {
-            return isExplosivePosition(position + 1) ? 1 : 0;
-        }
-
-        return 0;
-    }
-
-    count += leftNeighborhood(position);
-    count += rightNeighborhood(position);
-
-    // check cells above this one
-    if (position > dimension) {
-        count += isExplosivePosition(position - dimension) ? 1 : 0;
-        count += leftNeighborhood(position - dimension);
-        count += rightNeighborhood(position - dimension);
-    }
-
-    // check cells below this one
-    if (position + dimension < dimension * dimension) {
-        count += isExplosivePosition(position + dimension) ? 1 : 0;
-        count += leftNeighborhood(position + dimension);
-        count += rightNeighborhood(position + dimension);
-    }
+    });
 
     return count;
 }
 
-function isNeighbor(a, b) {
-    return neighbors(a).indexOf(b) !== -1;
+function directNeighbors(p) {
+    return neighbors(p);
 }
 
-function neighbors(p) {
+function allNeighbors(p) {
+    return neighbors(p, true);
+}
+
+function neighbors(p, includeDiagonal) {
     var neighbors = [];
     var row       = getRow(p);
     var col       = getColumn(p);
@@ -87,17 +59,17 @@ function neighbors(p) {
     var isBottom   = row === dimension - 1;
 
     if (!isTop) {
-        // if (!isLeftCol) neighbors.push(getPosition(col - 1, row - 1));
+        if (includeDiagonal) if (!isLeftCol) neighbors.push(getPosition(col - 1, row - 1));
         neighbors.push(getPosition(col, row - 1));
-        // if (!isRightCol) neighbors.push(getPosition(col + 1, row - 1));
+        if (includeDiagonal)  if (!isRightCol) neighbors.push(getPosition(col + 1, row - 1));
     }
     if (!isLeftCol) neighbors.push(getPosition(col - 1, row));
     if (!isRightCol) neighbors.push(getPosition(col + 1, row));
 
     if (!isBottom) {
-        // if (!isLeftCol) neighbors.push(getPosition(col - 1, row + 1));
+        if (includeDiagonal)  if (!isLeftCol) neighbors.push(getPosition(col - 1, row + 1));
         neighbors.push(getPosition(col, row + 1));
-        // if (!isRightCol) neighbors.push(getPosition(col + 1, row + 1));
+        if (includeDiagonal)  if (!isRightCol) neighbors.push(getPosition(col + 1, row + 1));
     }
     return neighbors;
 }
@@ -119,13 +91,18 @@ function setDimension(d) {
 }
 
 module.exports = {
-    neighbors   : neighbors,
-    setDimension: setDimension,
-    getDimension: function () {
+    setDimension         : setDimension,
+    getDimension         : function () {
         return dimension;
     },
-    getRow      : getRow,
-    getColumn   : getColumn,
-    getPosition : getPosition,
-    isNeighbor  : isNeighbor
+    getRow               : getRow,
+    getColumn            : getColumn,
+    getPosition          : getPosition,
+    directNeighbors      : directNeighbors,
+    allNeighbors         : allNeighbors,
+    setMines             : function (m) {
+        mines = m
+    },
+    explosiveSiblingCount: explosiveSiblingCount,
+    isExplosivePosition  : isExplosivePosition
 };
