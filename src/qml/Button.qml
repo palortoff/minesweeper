@@ -102,7 +102,6 @@ Item {
           id: revealState
 
           onEntered: {
-            console.log('reveal')
             reveal2()
           }
 
@@ -204,6 +203,7 @@ Item {
     Rectangle {
         id: background
         anchors.fill: parent
+        radius: 3
 
         color: "lightgray"
         border.color: "black"
@@ -251,7 +251,7 @@ Item {
             from: 0
             to: 360
             easing.type: Easing.OutBounce
-            duration: Minesweeper.randomInt(500, 4000)
+            duration: Minesweeper.randomInt(500, 400)
         }
 
         ColorAnimation {
@@ -260,7 +260,7 @@ Item {
 
             from: Qt.rgba(Math.random(),Math.random(),Math.random(),1)
             to: backgroundColor
-            duration: Minesweeper.randomInt(500, 4000)
+            duration: Minesweeper.randomInt(500, 400)
         }
     }
 

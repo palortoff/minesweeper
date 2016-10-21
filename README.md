@@ -1,6 +1,6 @@
 ## TODO
 
-- [ ] Restart game
+- [x] Restart game
 - [ ] show time
 - [ ] pause
 - [ ] make field as bomb with second right click

@@ -2,16 +2,17 @@
 .pragma library
 
 var dimension = 8;
-var mines     = (function () {
-    return initMinesweeper();
-})();
+var mines
+
+initMinesweeper();
 
 function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function initMinesweeper() {
-    var mines = [];
+    console.log('initMinesweeper');
+    mines = [];
     var count =5;//randomInt(1, dimension * dimension / 2);
 
 
@@ -20,8 +21,9 @@ function initMinesweeper() {
         if (mines.indexOf(newMine) === -1) mines.push(newMine);
     }
 
-    return mines;
+    console.log(mines);
 
+    return mines;
 }
 
 function isExplosivePosition(position) {
@@ -29,6 +31,7 @@ function isExplosivePosition(position) {
 }
 
 function explosiveSiblingCount(position) {
+    console.log('explosiveSiblingCount')
     var count = 0;
 
     // check the previous cell if this cell is not the first cell in this row
