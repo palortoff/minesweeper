@@ -44,6 +44,10 @@ Window {
             onClicked: board.reload()
         }
 
+        SettingsButton {
+            
+        }
+
         Item {
           Layout.fillHeight: true
         }
