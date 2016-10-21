@@ -32,9 +32,25 @@ Window {
           columns: Minesweeper.dimension
           rows: columns
 
-          signal positionIsSave(int position)
+          property bool inReveal: false;
+          property var toReveal : []
 
-          onPositionIsSave: console.log('position is save:',position)
+          function buttonIsSave(pos){
+            var n = Minesweeper.neighbors(pos);
+            n.forEach(function(p){toReveal.push(p);});
+
+            if (!inReveal)
+            {
+              inReveal = true;
+              var next = toReveal.pop();
+              for(; next !== undefined; next = toReveal.pop()) {
+                revealPosition(next);
+              }
+              inReveal = false;
+            }
+          }
+
+          signal revealPosition(var revealPos)
 
           Repeater {
               model: table.rows *  table.columns
@@ -43,11 +59,13 @@ Window {
                   width: Math.max(16, (Math.min(window.width, window.height) / table.columns) - 8)
                   height: width
                   position: modelData
-                  onIsSave: table.positionIsSave(position)
+                  onIsSave: table.buttonIsSave(position)
 
                   Connections {
                       target: table
-                      onPositionIsSave: otherIsSave(position)
+                      onRevealPosition: {
+                        if (revealPos === position) reveal();
+                      }
                   }
               }
           }

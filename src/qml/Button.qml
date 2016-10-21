@@ -22,14 +22,9 @@ Item {
     property real explodedStateOpacity : 0.6
     property color explodedStateColor : "darkred"
 
+    signal reveal()
+    signal reveal2()
     signal isSave(int position)
-    function otherIsSave(other){
-      var isNeighbor =  Minesweeper.isNeighbor(position, other)
-
-      if (isNeighbor) {
-        console.log("Hey, I know that guy!")
-      }
-    }
 
     QtObject {
         id: p;
@@ -97,11 +92,31 @@ Item {
                 guard: !p.isRightButton && !p.isExplosive;
             }
 
-            // SMF.SignalTransition {
-                // targetState: finalState
-                // signal: neighbourIsSave
-                // guard: !p.isExplosive;
-            // }
+            SMF.SignalTransition {
+                targetState: revealState
+                signal: reveal
+            }
+        }
+
+        SMF.State {
+          id: revealState
+
+          onEntered: {
+            console.log('reveal')
+            reveal2()
+          }
+
+          SMF.SignalTransition {
+            targetState: finalState
+            signal: reveal2
+          }
+
+          RotationAnimator {
+              target: background
+              from: -150
+              to: 150
+              duration: 400
+          }
         }
 
         SMF.State {
@@ -179,7 +194,9 @@ Item {
                 text.visible = p.explosiveSiblingCount > 0
                 text.color = p.siblingCountButtonTextColor()
                 background.opacity = p.explosiveSiblingCount === 0 ? 0.25 : 0.5
-                isSave(position)
+                if (p.explosiveSiblingCount == 0) {
+                  isSave(position)
+                }
             }
         }
     }
@@ -248,7 +265,6 @@ Item {
     }
 
     Component.onCompleted: {
-      console.log(position, Minesweeper.neighbors(position))
       startupAnimation.start()
     }
 }

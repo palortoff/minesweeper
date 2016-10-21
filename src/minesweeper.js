@@ -1,7 +1,7 @@
-'use strict';
-// .pragma library
+// 'use strict';
+.pragma library
 
-var dimension = 5;
+var dimension = 8;
 var mines     = (function () {
     return initMinesweeper();
 })();
@@ -12,7 +12,7 @@ function randomInt(min, max) {
 
 function initMinesweeper() {
     var mines = [];
-    var count = randomInt(1, dimension * dimension / 2);
+    var count =5;//randomInt(1, dimension * dimension / 2);
 
 
     while (mines.length < count) {
@@ -84,17 +84,17 @@ function neighbors(p) {
     var isBottom   = row === dimension - 1;
 
     if (!isTop) {
-        if (!isLeftCol) neighbors.push(getPosition(col - 1, row - 1));
+        // if (!isLeftCol) neighbors.push(getPosition(col - 1, row - 1));
         neighbors.push(getPosition(col, row - 1));
-        if (!isRightCol) neighbors.push(getPosition(col + 1, row - 1));
+        // if (!isRightCol) neighbors.push(getPosition(col + 1, row - 1));
     }
     if (!isLeftCol) neighbors.push(getPosition(col - 1, row));
     if (!isRightCol) neighbors.push(getPosition(col + 1, row));
 
     if (!isBottom) {
-        if (!isLeftCol) neighbors.push(getPosition(col - 1, row + 1));
+        // if (!isLeftCol) neighbors.push(getPosition(col - 1, row + 1));
         neighbors.push(getPosition(col, row + 1));
-        if (!isRightCol) neighbors.push(getPosition(col + 1, row + 1));
+        // if (!isRightCol) neighbors.push(getPosition(col + 1, row + 1));
     }
     return neighbors;
 }
