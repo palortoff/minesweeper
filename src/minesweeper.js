@@ -16,7 +16,7 @@ function initMinesweeper() {
 
 
     while (mines.length < count) {
-        var newMine = randomInt(0, dimension * dimension - 1)
+        var newMine = randomInt(0, dimension * dimension - 1);
         if (mines.indexOf(newMine) === -1) mines.push(newMine);
     }
 
@@ -70,7 +70,7 @@ function explosiveSiblingCount(position) {
 }
 
 function isNeighbor(a, b) {
-    return false
+    return neighbors(a).indexOf(b) !== -1;
 }
 
 function neighbors(p) {
@@ -123,5 +123,6 @@ module.exports = {
     },
     getRow      : getRow,
     getColumn   : getColumn,
-    getPosition : getPosition
+    getPosition : getPosition,
+    isNeighbor  : isNeighbor
 };

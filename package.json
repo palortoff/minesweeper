@@ -5,6 +5,7 @@
   "main": "index.js",
   "devDependencies": {
     "chai": "^3.5.0",
+    "lodash": "^4.16.4",
     "mocha": "^3.1.2"
   },
   "scripts": {

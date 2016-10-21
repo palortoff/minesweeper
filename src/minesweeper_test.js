@@ -1,6 +1,6 @@
 'use strict';
 
-const {getPosition, getColumn, getRow, getDimension, setDimension, neighbors} = require('./minesweeper');
+const {isNeighbor, getPosition, getColumn, getRow, getDimension, setDimension, neighbors} = require('./minesweeper');
 
 const {expect} = require('chai');
 
@@ -129,6 +129,27 @@ describe('Minesweeper', () => {
             it('the bottom neighbor is not included      ', () => expect(n).to.not.include(pos + dimension));
             it('the bottom right neighbor is not included', () => expect(n).to.not.include(pos + dimension + 1));
         });
+    });
+
+    describe('#isNeighbor', () => {
+        let dimension = 3;
+        let oldDimension;
+        before(() => {
+            oldDimension = getDimension();
+            setDimension(dimension);
+        });
+        after(() => setDimension(oldDimension));
+
+        it('0 is neighbor of 1', () => expect(isNeighbor(0,1)).to.be.true);
+        it('0 is neighbor of 3', () => expect(isNeighbor(0,3)).to.be.true);
+        it('0 is neighbor of 4', () => expect(isNeighbor(0,4)).to.be.true);
+
+        it('0 is not neighbor of 2', () => expect(isNeighbor(0,2)).to.be.false);
+        it('0 is not neighbor of 5', () => expect(isNeighbor(0,2)).to.be.false);
+        it('0 is not neighbor of 6', () => expect(isNeighbor(0,2)).to.be.false);
+        it('0 is not neighbor of 7', () => expect(isNeighbor(0,2)).to.be.false);
+        it('0 is not neighbor of 8', () => expect(isNeighbor(0,2)).to.be.false);
+
 
     });
 
