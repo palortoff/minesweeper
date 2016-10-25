@@ -3,6 +3,7 @@ import QtQml 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQml.StateMachine 1.0 as SMF
+import "."
 
 import "../minesweeper.js" as Minesweeper
 
@@ -21,10 +22,15 @@ Item {
 
     property real explodedStateOpacity : 0.6
     property color explodedStateColor : "darkred"
+    property string bomb: qsTr("\uD83D\uDCA3")
+
+    property real bombNotFoundOpacity: 0.6
+    property color bombNotFoundColor: "red"
 
     signal reveal()
-    signal reveal2()
     signal isSave(int position)
+    signal exploded()
+    signal gameOver()
 
     QtObject {
         id: p;
@@ -65,9 +71,7 @@ Item {
         initialState: startState
         running: true
 
-        SMF.State {
-            id: startState
-
+        SMF.State { id: startState
             onEntered: {
                 text.text = ""
                 text.color = initialStateColor
@@ -75,52 +79,35 @@ Item {
             }
 
             SMF.SignalTransition {
-                targetState: questionState
+                targetState: suspectBombState
                 signal: mousearea.onClicked
-                guard: p.isRightButton
+                guard: p.isRightButton && GameState.gameIsRunning
             }
 
             SMF.SignalTransition {
                 targetState: explodeState
                 signal: mousearea.onClicked
-                guard: !p.isRightButton && p.isExplosive;
+                guard: !p.isRightButton && p.isExplosive && GameState.gameIsRunning
             }
 
             SMF.SignalTransition {
                 targetState: finalState
                 signal: mousearea.onClicked
-                guard: !p.isRightButton && !p.isExplosive;
+                guard: !p.isRightButton && !p.isExplosive && GameState.gameIsRunning
             }
 
             SMF.SignalTransition {
-                targetState: revealState
+                targetState: finalState
                 signal: reveal
             }
+
+            SMF.SignalTransition{
+                targetState: bombNotFoundState
+                guard: p.isExplosive
+                signal: gameOver
+            }
         }
-
-        SMF.State {
-          id: revealState
-
-          onEntered: {
-            reveal2()
-          }
-
-          SMF.SignalTransition {
-            targetState: finalState
-            signal: reveal2
-          }
-
-          RotationAnimator {
-              target: background
-              from: -150
-              to: 150
-              duration: 400
-          }
-        }
-
-        SMF.State {
-            id: questionState
-
+        SMF.State { id: questionState
             onEntered: {
                 text.text = qsTr("?")
                 text.color = questionStateColor
@@ -133,10 +120,48 @@ Item {
                 guard: p.isRightButton
             }
         }
-
-        SMF.State {
-            id: explodeState
-
+        SMF.State { id: suspectBombState
+            onEntered: {
+                text.text = qsTr("X")
+                text.color = questionStateColor
+                background.opacity = questionStateOpacity
+                GameState.minesFound += 1
+            }
+            onExited: {
+                GameState.minesFound -= 1
+            }
+            SMF.SignalTransition {
+                targetState: questionState
+                signal: mousearea.onClicked
+                guard: p.isRightButton
+            }
+            SMF.SignalTransition {
+                targetState: suspicionConfirmed
+                signal: gameOver
+                guard: p.isExplosive
+            }
+            SMF.SignalTransition {
+                targetState: suspicionDisproved
+                signal: gameOver
+                guard: !p.isExplosive
+            }
+            // TODO: gameover
+        }
+        SMF.State { id: suspicionConfirmed
+            onEntered: {
+                text.text = bomb // TODO: move up
+                text.color = "green"
+                background.opacity = questionStateOpacity
+            }
+        }
+        SMF.State { id: suspicionDisproved
+            onEntered: {
+                text.text = qsTr("X") // TODO: move up
+                text.color = "red"
+                background.opacity = questionStateOpacity
+            }
+        }
+        SMF.State { id: explodeState
             SequentialAnimation {
                 id: explodeStateAnimator
 
@@ -177,16 +202,23 @@ Item {
             }
 
             onEntered: {
-                text.text = qsTr("\uD83D\uDCA3")
+                text.text = bomb
                 text.color = explodedStateColor
                 background.opacity = explodedStateOpacity
                 explodeStateAnimator.running = true
+                exploded()
 
             }
         }
+        SMF.State { id: bombNotFoundState
 
-        SMF.State {
-            id: finalState
+            onEntered: {
+                text.text  = bomb
+                text.color = bombNotFoundColor
+                background.opacity = bombNotFoundOpacity
+            }
+        }
+        SMF.State { id: finalState
 
             onEntered: {
                 text.text = p.explosiveSiblingCount
@@ -215,7 +247,6 @@ Item {
             }
         }
     }
-
     Text {
         id: text
         anchors.fill: parent
@@ -229,7 +260,6 @@ Item {
             }
         }
     }
-
     MouseArea {
         id: mousearea;
         anchors.fill: parent
@@ -239,7 +269,6 @@ Item {
             p.isRightButton = mouse.button == Qt.RightButton
         }
     }
-
     ParallelAnimation {
         id: startupAnimation
         running: false
@@ -263,7 +292,6 @@ Item {
             duration: Minesweeper.randomInt(500, 400)
         }
     }
-
     Component.onCompleted: {
       startupAnimation.start()
     }

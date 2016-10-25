@@ -3,11 +3,14 @@ import QtQuick.Layouts 1.1
 
 import "../minesweeper.js" as Minesweeper
 
-Column {
-    property int minDimension
+Item {
+    id: root
+
+    signal bombExploded()
 
     Loader {
         id: loader
+        anchors.centerIn: root
         sourceComponent: board
         active: true
     }
@@ -23,12 +26,15 @@ Column {
 
       Grid {
           id: table
+
+          signal revealPosition(var revealPos)
+
           columns: Minesweeper.dimension
           rows: columns
 
           property bool inReveal: false;
           property var toReveal : []
-          property int tileSize: Math.max(16, (minDimension / table.columns) - 8)
+          property int tileSize: Math.max(Math.min(root.height, root.width) / table.columns, 16)
 
           function buttonIsSave(pos){
             var n = Minesweeper.directNeighbors(pos);
@@ -45,7 +51,6 @@ Column {
             }
           }
 
-          signal revealPosition(var revealPos)
 
           Repeater {
               model: table.rows *  table.columns
@@ -54,13 +59,19 @@ Column {
                   width:tileSize
                   height: tileSize
                   position: modelData
+
                   onIsSave: table.buttonIsSave(position)
+                  onExploded: bombExploded()
 
                   Connections {
                       target: table
                       onRevealPosition: {
                         if (revealPos === position) reveal();
                       }
+                  }
+                  Connections {
+                      target: root
+                      onBombExploded: gameOver()
                   }
               }
           }

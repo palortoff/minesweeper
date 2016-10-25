@@ -1,7 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.1
-
+import "."
 import "../minesweeper.js" as Minesweeper
 
 Window {
@@ -11,6 +11,12 @@ Window {
     height: 480
     title: qsTr("Minesweeper")
 
+
+    function gameOver() {
+        GameState.gameOver()
+        topMenu.gameOver()
+    }
+
     Image {
         id: background
         anchors.fill: parent
@@ -19,38 +25,28 @@ Window {
         source: "qrc:/images/bg.png"
     }
 
-    RowLayout {
-      anchors.fill: parent
-      spacing: 10
+    ColumnLayout {
+        id: main
 
-      Item{
-          width:10
-      }
-
-      Board {
-          id: board
-          minDimension: Math.min(window.width, window.height)
-      }
-
-      ColumnLayout {
+        anchors {
+            fill: parent
+            margins: 10
+        }
         spacing: 10
-        Item {
-          height: 10
+
+        TopMenu{
+            id: topMenu
+            onReload: {
+                board.reload()
+            }
         }
 
-        BombCount {}
+        Board {
+            id: board
+            Layout.fillHeight: true
+            Layout.fillWidth: true
 
-        RestartButton {
-            onClicked: board.reload()
+            onBombExploded: gameOver()
         }
-
-        SettingsButton {
-            
-        }
-
-        Item {
-          Layout.fillHeight: true
-        }
-      }
     }
 }

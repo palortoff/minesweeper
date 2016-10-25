@@ -1,4 +1,5 @@
 import QtQuick 2.5
+import "."
 
 Rectangle {
     width: 30
@@ -21,6 +22,7 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         onClicked: {
+            GameState.reset()
             parent.clicked()
         }
     }

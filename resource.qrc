@@ -6,7 +6,11 @@
         <file>src/qml/RestartButton.qml</file>
         <file>src/qml/BombCount.qml</file>
         <file>src/qml/Board.qml</file>
+        <file>src/qml/TopMenu.qml</file>
+        <file>src/qml/Notification.qml</file>
         <file>src/qml/SettingsButton.qml</file>
+        <file>src/qml/qmldir</file>
+        <file>src/qml/GameState.qml</file>
         <file>images/minesweeper.png</file>
         <file>images/bg.png</file>
     </qresource>

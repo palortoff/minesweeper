@@ -10,13 +10,17 @@ function randomInt(min, max) {
 }
 
 function initMinesweeper() {
-    console.log('initMinesweeper');
     var count = 5;
     mines     = [];
 
-    while (mines.length < count) {
-        var newMine = randomInt(0, dimension * dimension - 1);
-        if (mines.indexOf(newMine) === -1) mines.push(newMine);
+    if (0) {
+      mines     = [1,15,50];
+    }
+    else {
+      while (mines.length < count) {
+          var newMine = randomInt(0, dimension * dimension - 1);
+          if (mines.indexOf(newMine) === -1) mines.push(newMine);
+      }
     }
 
     console.log(mines);
@@ -90,19 +94,21 @@ function setDimension(d) {
     dimension = d;
 }
 
-module.exports = {
-    setDimension         : setDimension,
-    getDimension         : function () {
-        return dimension;
-    },
-    getRow               : getRow,
-    getColumn            : getColumn,
-    getPosition          : getPosition,
-    directNeighbors      : directNeighbors,
-    allNeighbors         : allNeighbors,
-    setMines             : function (m) {
-        mines = m
-    },
-    explosiveSiblingCount: explosiveSiblingCount,
-    isExplosivePosition  : isExplosivePosition
-};
+if (typeof module !== "undefined") {
+    module.exports = {
+        setDimension         : setDimension,
+        getDimension         : function () {
+            return dimension;
+        },
+        getRow               : getRow,
+        getColumn            : getColumn,
+        getPosition          : getPosition,
+        directNeighbors      : directNeighbors,
+        allNeighbors         : allNeighbors,
+        setMines             : function (m) {
+            mines = m
+        },
+        explosiveSiblingCount: explosiveSiblingCount,
+        isExplosivePosition  : isExplosivePosition
+    };
+}
