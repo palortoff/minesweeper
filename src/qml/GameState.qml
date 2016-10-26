@@ -10,6 +10,7 @@ QtObject {
     property var suspectedMines : []
 
     signal gameIsWon()
+    signal gameOver()
 
     function reset() {
         minesFound = 0;
@@ -17,9 +18,7 @@ QtObject {
         suspectedMines = []
     }
 
-    function gameOver() {
-        gameIsRunning = false
-    }
+    onGameOver: gameIsRunning = false
 
     function suspectMine(position){
         suspectedMines.push(position)

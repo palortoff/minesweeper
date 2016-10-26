@@ -1,12 +1,10 @@
 ## TODO
 
-- [x] Restart game
+- [x] signals
+- [ ] mines vs. bombs
+- [ ] first click cannot find Mine
+- [ ] configure board size
+- [ ] configure number of bombs
 - [ ] show time
 - [ ] pause
-- [x] make field as bomb with second right click
-- [ ] show number of found bombs
-- [ ] configure board size
-- [x] show "game over"
-- [ ] show "mission accomplished"
-- [ ] configure number of bombs
 - [ ] highscore

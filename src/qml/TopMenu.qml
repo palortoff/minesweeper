@@ -7,13 +7,10 @@ RowLayout {
 
     signal reload()
 
-    function gameOver(){
-        notification.gameOver()
-    }
-
     Connections {
         target: GameState
         onGameIsWon: notification.gameIsWon()
+        onGameOver: notification.gameOver()
     }
 
     onReload: notification.clear()

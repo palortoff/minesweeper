@@ -12,11 +12,6 @@ Window {
     title: qsTr("Minesweeper")
 
 
-    function gameOver() {
-        GameState.gameOver()
-        topMenu.gameOver()
-    }
-
     Image {
         id: background
         anchors.fill: parent
@@ -45,8 +40,6 @@ Window {
             id: board
             Layout.fillHeight: true
             Layout.fillWidth: true
-
-            onBombExploded: gameOver()
         }
     }
 }

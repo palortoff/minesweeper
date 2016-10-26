@@ -6,8 +6,6 @@ import "../minesweeper.js" as Minesweeper
 Item {
     id: root
 
-    signal bombExploded()
-
     Loader {
         id: loader
         anchors.centerIn: root
@@ -61,17 +59,12 @@ Item {
                   position: modelData
 
                   onIsSave: table.buttonIsSave(position)
-                  onExploded: bombExploded()
 
                   Connections {
                       target: table
                       onRevealPosition: {
                         if (revealPos === position) reveal();
                       }
-                  }
-                  Connections {
-                      target: root
-                      onBombExploded: gameOver()
                   }
               }
           }

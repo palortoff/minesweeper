@@ -29,8 +29,6 @@ Item {
 
     signal reveal()
     signal isSave(int position)
-    signal exploded()
-    signal gameOver()
 
     QtObject {
         id: p;
@@ -104,7 +102,7 @@ Item {
             SMF.SignalTransition{
                 targetState: bombNotFoundState
                 guard: p.isExplosive
-                signal: gameOver
+                signal: GameState.gameOver
             }
         }
         SMF.State { id: questionState
@@ -137,7 +135,7 @@ Item {
             }
             SMF.SignalTransition {
                 targetState: suspicionConfirmed
-                signal: gameOver
+                signal: GameState.gameOver
                 guard: p.isExplosive && GameState.gameIsRunning
             }
             SMF.SignalTransition {
@@ -147,7 +145,7 @@ Item {
             }
             SMF.SignalTransition {
                 targetState: suspicionDisproved
-                signal: gameOver
+                signal: GameState.gameOver
                 guard: !p.isExplosive && GameState.gameIsRunning
             }
         }
@@ -217,8 +215,7 @@ Item {
                 text.color = explodedStateColor
                 background.opacity = explodedStateOpacity
                 explodeStateAnimator.running = true
-                exploded()
-
+                GameState.gameOver()
             }
         }
         SMF.State { id: bombNotFoundState
