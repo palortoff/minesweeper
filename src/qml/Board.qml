@@ -14,7 +14,7 @@ Item {
     }
 
     function reload() {
-        Minesweeper.initMinesweeper();
+        Minesweeper.reload();
         loader.active = false
         loader.active = true
     }

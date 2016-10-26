@@ -3,24 +3,24 @@
 var dimension = 8;
 var mines;
 
-initMinesweeper();
+reload();
 
 function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function initMinesweeper() {
-    var count = 5;
-    mines     = [];
+function reload(){
+  mines = [];
 
-    if (0) {
-      mines     = [1,15,50];
-    }
-    else {
-      while (mines.length < count) {
-          var newMine = randomInt(0, dimension * dimension - 1);
-          if (mines.indexOf(newMine) === -1) mines.push(newMine);
-      }
+}
+
+function initMinesweeper(savePosition) {
+    var count = 63;
+
+    while (mines.length < count) {
+        var newMine = randomInt(0, dimension * dimension - 1);
+        if (newMine === savePosition) continue;
+        if (mines.indexOf(newMine) === -1) mines.push(newMine);
     }
 
     console.log(mines);
@@ -28,6 +28,9 @@ function initMinesweeper() {
 }
 
 function isExplosivePosition(position) {
+    if (mines.length === 0) {
+      initMinesweeper(position)
+    }
     return mines.indexOf(position) >= 0;
 }
 
