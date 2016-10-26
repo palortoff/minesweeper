@@ -12,7 +12,8 @@ RowLayout{
         font.pixelSize: 25
     }
     Text {
-        text: Minesweeper.mines.length - GameState.minesFound
+        id: count
+        text: Minesweeper.mines.length - GameState.suspectedMines.length
         color: "white"
         font.pixelSize: bomb.font.pixelSize
     }

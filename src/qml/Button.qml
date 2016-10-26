@@ -117,7 +117,7 @@ Item {
             SMF.SignalTransition {
                 targetState: startState
                 signal: mousearea.onClicked
-                guard: p.isRightButton
+                guard: p.isRightButton && GameState.gameIsRunning
             }
         }
         SMF.State { id: suspectBombState
@@ -125,27 +125,38 @@ Item {
                 text.text = qsTr("X")
                 text.color = questionStateColor
                 background.opacity = questionStateOpacity
-                GameState.minesFound += 1
+                GameState.suspectMine(position)
             }
             onExited: {
-                GameState.minesFound -= 1
+                GameState.unsuspectMine(position)
             }
             SMF.SignalTransition {
                 targetState: questionState
                 signal: mousearea.onClicked
-                guard: p.isRightButton
+                guard: p.isRightButton && GameState.gameIsRunning
             }
             SMF.SignalTransition {
                 targetState: suspicionConfirmed
                 signal: gameOver
+                guard: p.isExplosive && GameState.gameIsRunning
+            }
+            SMF.SignalTransition {
+                targetState: suspicionConfirmed2
+                signal: GameState.gameIsWon
                 guard: p.isExplosive
             }
             SMF.SignalTransition {
                 targetState: suspicionDisproved
                 signal: gameOver
-                guard: !p.isExplosive
+                guard: !p.isExplosive && GameState.gameIsRunning
             }
-            // TODO: gameover
+        }
+        SMF.State { id: suspicionConfirmed2
+            onEntered: {
+                text.text = "X" // TODO: move up
+                text.color = "green"
+                background.opacity = questionStateOpacity
+            }
         }
         SMF.State { id: suspicionConfirmed
             onEntered: {

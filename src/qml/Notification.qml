@@ -10,6 +10,11 @@ Text {
         color= "red"
     }
 
+    function gameIsWon(){
+        text = "Congratulations!"
+        color="yellow"
+    }
+
     text: ""
 
     font.pixelSize: 25

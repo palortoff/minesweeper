@@ -1,5 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Layouts 1.1
+import "."
 
 RowLayout {
     id: topMenu
@@ -8,6 +9,11 @@ RowLayout {
 
     function gameOver(){
         notification.gameOver()
+    }
+
+    Connections {
+        target: GameState
+        onGameIsWon: notification.gameIsWon()
     }
 
     onReload: notification.clear()
