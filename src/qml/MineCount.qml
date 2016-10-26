@@ -13,7 +13,7 @@ RowLayout{
     }
     Text {
         id: count
-        text: Minesweeper.mines.length - GameState.suspectedMines.length
+        text: Minesweeper.count - GameState.suspectedMines.length
         color: "white"
         font.pixelSize: mine.font.pixelSize
     }

@@ -1,6 +1,7 @@
 .pragma library
 
 var dimension = 8;
+var count = 5;
 var mines;
 
 reload();
@@ -15,8 +16,6 @@ function reload(){
 }
 
 function initMinesweeper(savePosition) {
-    var count = 63;
-
     while (mines.length < count) {
         var newMine = randomInt(0, dimension * dimension - 1);
         if (newMine === savePosition) continue;

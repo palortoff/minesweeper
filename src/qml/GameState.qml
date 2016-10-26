@@ -7,7 +7,8 @@ import "../minesweeper.js" as Minesweeper
 QtObject {
     property int minesFound: 0
     property bool gameIsRunning: true
-    property var suspectedMines : []
+    property var suspectedMines: []
+    property var revealedFields: []
 
     signal gameIsWon()
     signal gameOver()
@@ -16,6 +17,12 @@ QtObject {
         minesFound = 0;
         gameIsRunning = true
         suspectedMines = []
+        revealedFields = []
+    }
+
+    function revealed(position) {
+        revealedFields.push(position)
+        checkIfGameIsWon()
     }
 
     onGameOver: gameIsRunning = false
@@ -37,6 +44,7 @@ QtObject {
         }
     }
     function isGameWon(){
+        if (revealedFields.length + Minesweeper.mines.length === Minesweeper.dimension * Minesweeper.dimension) return true;
         if (suspectedMines.length === Minesweeper.mines.length){
             for(var i = 0; i < Minesweeper.mines.length; i++){
                 if (suspectedMines.indexOf(Minesweeper.mines[i]) === -1){

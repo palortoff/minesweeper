@@ -41,8 +41,7 @@ Item {
              return Minesweeper.explosiveSiblingCount(position);
          }
 
-        function siblingCountButtonTextColor()
-        {
+        function siblingCountButtonTextColor() {
             switch(explosiveSiblingCount()) {
             case 1:
                 return "blue";
@@ -103,10 +102,15 @@ Item {
                 signal: reveal
             }
 
-            SMF.SignalTransition{
+            SMF.SignalTransition {
                 targetState: mineNotFoundState
                 guard: p.isExplosive()
                 signal: GameState.gameOver
+            }
+            SMF.SignalTransition {
+                targetState: suspicionConfirmed
+                signal: GameState.gameIsWon
+                guard: p.isExplosive()
             }
         }
         SMF.State { id: questionState
@@ -240,6 +244,7 @@ Item {
                 if (p.explosiveSiblingCount() === 0) {
                   isSave(position)
                 }
+                GameState.revealed(position)
             }
         }
     }
