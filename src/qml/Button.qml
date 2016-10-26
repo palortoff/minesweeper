@@ -34,12 +34,16 @@ Item {
         id: p;
 
         property bool isRightButton: true;
-        property bool isExplosive: Minesweeper.isExplosivePosition(position);
-        property int explosiveSiblingCount: Minesweeper.explosiveSiblingCount(position);
+        function isExplosive(){
+            return Minesweeper.isExplosivePosition(position);
+        }
+        function explosiveSiblingCount(){
+             return Minesweeper.explosiveSiblingCount(position);
+         }
 
         function siblingCountButtonTextColor()
         {
-            switch(explosiveSiblingCount) {
+            switch(explosiveSiblingCount()) {
             case 1:
                 return "blue";
             case 2:
@@ -85,13 +89,13 @@ Item {
             SMF.SignalTransition {
                 targetState: explodeState
                 signal: mousearea.onClicked
-                guard: !p.isRightButton && p.isExplosive && GameState.gameIsRunning
+                guard: !p.isRightButton && p.isExplosive() && GameState.gameIsRunning
             }
 
             SMF.SignalTransition {
                 targetState: finalState
                 signal: mousearea.onClicked
-                guard: !p.isRightButton && !p.isExplosive && GameState.gameIsRunning
+                guard: !p.isRightButton && !p.isExplosive() && GameState.gameIsRunning
             }
 
             SMF.SignalTransition {
@@ -101,7 +105,7 @@ Item {
 
             SMF.SignalTransition{
                 targetState: mineNotFoundState
-                guard: p.isExplosive
+                guard: p.isExplosive()
                 signal: GameState.gameOver
             }
         }
@@ -136,17 +140,17 @@ Item {
             SMF.SignalTransition {
                 targetState: suspicionConfirmed
                 signal: GameState.gameOver
-                guard: p.isExplosive && GameState.gameIsRunning
+                guard: p.isExplosive() && GameState.gameIsRunning
             }
             SMF.SignalTransition {
                 targetState: suspicionConfirmed2
                 signal: GameState.gameIsWon
-                guard: p.isExplosive
+                guard: p.isExplosive()
             }
             SMF.SignalTransition {
                 targetState: suspicionDisproved
                 signal: GameState.gameOver
-                guard: !p.isExplosive && GameState.gameIsRunning
+                guard: !p.isExplosive() && GameState.gameIsRunning
             }
         }
         SMF.State { id: suspicionConfirmed2
@@ -229,11 +233,11 @@ Item {
         SMF.State { id: finalState
 
             onEntered: {
-                text.text = p.explosiveSiblingCount
-                text.visible = p.explosiveSiblingCount > 0
+                text.text = p.explosiveSiblingCount()
+                text.visible = p.explosiveSiblingCount() > 0
                 text.color = p.siblingCountButtonTextColor()
-                background.opacity = p.explosiveSiblingCount === 0 ? 0.25 : 0.5
-                if (p.explosiveSiblingCount == 0) {
+                background.opacity = p.explosiveSiblingCount() === 0 ? 0.25 : 0.5
+                if (p.explosiveSiblingCount() === 0) {
                   isSave(position)
                 }
             }
