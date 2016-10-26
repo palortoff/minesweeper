@@ -22,10 +22,10 @@ Item {
 
     property real explodedStateOpacity : 0.6
     property color explodedStateColor : "darkred"
-    property string bomb: qsTr("\uD83D\uDCA3")
+    property string mineChar: qsTr("\uD83D\uDCA3")
 
-    property real bombNotFoundOpacity: 0.6
-    property color bombNotFoundColor: "red"
+    property real mineNotFoundOpacity: 0.6
+    property color mineNotFoundColor: "red"
 
     signal reveal()
     signal isSave(int position)
@@ -77,7 +77,7 @@ Item {
             }
 
             SMF.SignalTransition {
-                targetState: suspectBombState
+                targetState: suspectMineState
                 signal: mousearea.onClicked
                 guard: p.isRightButton && GameState.gameIsRunning
             }
@@ -100,7 +100,7 @@ Item {
             }
 
             SMF.SignalTransition{
-                targetState: bombNotFoundState
+                targetState: mineNotFoundState
                 guard: p.isExplosive
                 signal: GameState.gameOver
             }
@@ -118,7 +118,7 @@ Item {
                 guard: p.isRightButton && GameState.gameIsRunning
             }
         }
-        SMF.State { id: suspectBombState
+        SMF.State { id: suspectMineState
             onEntered: {
                 text.text = qsTr("X")
                 text.color = questionStateColor
@@ -158,7 +158,7 @@ Item {
         }
         SMF.State { id: suspicionConfirmed
             onEntered: {
-                text.text = bomb // TODO: move up
+                text.text = mineChar // TODO: move up
                 text.color = "green"
                 background.opacity = questionStateOpacity
             }
@@ -211,19 +211,19 @@ Item {
             }
 
             onEntered: {
-                text.text = bomb
+                text.text = mineChar
                 text.color = explodedStateColor
                 background.opacity = explodedStateOpacity
                 explodeStateAnimator.running = true
                 GameState.gameOver()
             }
         }
-        SMF.State { id: bombNotFoundState
+        SMF.State { id: mineNotFoundState
 
             onEntered: {
-                text.text  = bomb
-                text.color = bombNotFoundColor
-                background.opacity = bombNotFoundOpacity
+                text.text  = mineChar
+                text.color = mineNotFoundColor
+                background.opacity = mineNotFoundOpacity
             }
         }
         SMF.State { id: finalState

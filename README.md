@@ -1,10 +1,10 @@
 ## TODO
 
 - [x] signals
-- [ ] mines vs. bombs
+- [x] mines vs. bombs
 - [ ] first click cannot find Mine
 - [ ] configure board size
-- [ ] configure number of bombs
+- [ ] configure number of mines
 - [ ] show time
 - [ ] pause
 - [ ] highscore

@@ -4,7 +4,7 @@
         <file>src/qml/main.qml</file>
         <file>src/qml/Button.qml</file>
         <file>src/qml/RestartButton.qml</file>
-        <file>src/qml/BombCount.qml</file>
+        <file>src/qml/MineCount.qml</file>
         <file>src/qml/Board.qml</file>
         <file>src/qml/TopMenu.qml</file>
         <file>src/qml/Notification.qml</file>

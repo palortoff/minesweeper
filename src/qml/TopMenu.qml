@@ -17,7 +17,7 @@ RowLayout {
 
     anchors.margins: 10
     Layout.fillWidth: true
-    BombCount {}
+    MineCount {}
     Item { Layout.fillWidth: true }
     Notification {
         id: notification

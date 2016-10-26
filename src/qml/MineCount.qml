@@ -6,7 +6,7 @@ import "../minesweeper.js" as Minesweeper
 
 RowLayout{
     Text {
-        id: bomb
+        id: mine
         text: qsTr("\uD83D\uDCA3")
         color: "red"
         font.pixelSize: 25
@@ -15,6 +15,6 @@ RowLayout{
         id: count
         text: Minesweeper.mines.length - GameState.suspectedMines.length
         color: "white"
-        font.pixelSize: bomb.font.pixelSize
+        font.pixelSize: mine.font.pixelSize
     }
 }
